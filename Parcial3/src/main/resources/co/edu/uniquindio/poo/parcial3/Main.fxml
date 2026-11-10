@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="620.0" prefWidth="980.0"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.uniquindio.poo.parcial3.viewController.MainViewController">
+    <children>
+        <VBox spacing="8"
+              AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <children>
+
+                <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                    <tabs>
+
+                        <!-- ===================== EMPLEADOS ===================== -->
+                        <Tab text="Empleados">
+                            <content>
+                                <HBox spacing="15">
+                                    <padding>
+                                        <Insets top="15" right="15" bottom="15" left="15"/>
+                                    </padding>
+                                    <children>
+                                        <VBox spacing="8" prefWidth="260" minWidth="260">
+                                            <children>
+                                                <Label text="Registrar empleado"
+                                                       style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+                                                <Label text="Tipo de empleado"/>
+                                                <ComboBox fx:id="cmbTipoEmpleado" prefWidth="260"/>
+                                                <Label text="Nombre"/>
+                                                <TextField fx:id="txtNombre"/>
+                                                <Label text="Documento"/>
+                                                <TextField fx:id="txtDocumento"/>
+                                                <Label text="Codigo"/>
+                                                <TextField fx:id="txtCodigoEmpleado"/>
+                                                <Label text="Minutos disponibles"/>
+                                                <TextField fx:id="txtMinutos"/>
+                                                <Label text="Caja (solo cajero)"/>
+                                                <TextField fx:id="txtCaja"/>
+                                                <HBox spacing="8">
+                                                    <children>
+                                                        <Button text="Registrar" onAction="#onRegistrarEmpleado"/>
+                                                        <Button text="Cargar datos de ejemplo" onAction="#onCargarEjemplo"/>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+
+                                        <TableView fx:id="tablaEmpleados" HBox.hgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="colEmpCodigo" text="Codigo" prefWidth="80"/>
+                                                <TableColumn fx:id="colEmpNombre" text="Nombre" prefWidth="140"/>
+                                                <TableColumn fx:id="colEmpDocumento" text="Documento" prefWidth="110"/>
+                                                <TableColumn fx:id="colEmpTipo" text="Tipo" prefWidth="140"/>
+                                                <TableColumn fx:id="colEmpMinutos" text="Minutos disp." prefWidth="100"/>
+                                                <TableColumn fx:id="colEmpCaja" text="Caja" prefWidth="80"/>
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </HBox>
+                            </content>
+                        </Tab>
+
+                        <!-- ====================== PEDIDOS ====================== -->
+                        <Tab text="Pedidos">
+                            <content>
+                                <HBox spacing="15">
+                                    <padding>
+                                        <Insets top="15" right="15" bottom="15" left="15"/>
+                                    </padding>
+                                    <children>
+                                        <VBox spacing="8" prefWidth="260" minWidth="260">
+                                            <children>
+                                                <Label text="Registrar pedido"
+                                                       style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+                                                <Label text="Codigo"/>
+                                                <TextField fx:id="txtCodigoPedido"/>
+                                                <Label text="Nombre del cliente"/>
+                                                <TextField fx:id="txtCliente"/>
+                                                <Label text="Tipo de pan"/>
+                                                <ComboBox fx:id="cmbTipoPan" prefWidth="260"/>
+                                                <Label text="Cantidad"/>
+                                                <TextField fx:id="txtCantidad"/>
+                                                <Button text="Registrar pedido" onAction="#onRegistrarPedido"/>
+
+                                                <Label text="Sobre el pedido seleccionado:"
+                                                       style="-fx-font-weight: bold;">
+                                                    <padding>
+                                                        <Insets top="15"/>
+                                                    </padding>
+                                                </Label>
+                                                <HBox spacing="8">
+                                                    <children>
+                                                        <Button text="Asignar a produccion" onAction="#onAsignarPedido"/>
+                                                        <Button text="Cancelar pedido" onAction="#onCancelarPedido"/>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+
+                                        <TableView fx:id="tablaPedidos" HBox.hgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="colPedCodigo" text="Codigo" prefWidth="75"/>
+                                                <TableColumn fx:id="colPedCliente" text="Cliente" prefWidth="140"/>
+                                                <TableColumn fx:id="colPedTipo" text="Pan" prefWidth="100"/>
+                                                <TableColumn fx:id="colPedCantidad" text="Cant." prefWidth="60"/>
+                                                <TableColumn fx:id="colPedEstado" text="Estado" prefWidth="100"/>
+                                                <TableColumn fx:id="colPedEmpleado" text="Empleado" prefWidth="90"/>
+                                                <TableColumn fx:id="colPedMinutos" text="Min. reserv." prefWidth="90"/>
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </HBox>
+                            </content>
+                        </Tab>
+
+                    </tabs>
+                </TabPane>
+
+                <!-- Mensaje de exito / error que usa mostrarExito y mostrarError -->
+                <Label fx:id="lblMensaje" wrapText="true" style="-fx-font-size: 13;">
+                    <padding>
+                        <Insets top="4" right="15" bottom="10" left="15"/>
+                    </padding>
+                </Label>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

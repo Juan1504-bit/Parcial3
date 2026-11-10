@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 public class App extends Application{
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/co/edu/uniquindio/poo/parcial3/view/Main.fxml"));
         stage.setTitle("Panaderia El Trigal");
-        stage.setScene(new Scene(root, 900, 600));
+        stage.setScene(new Scene(root, 980, 620));
         stage.show();
     }
 
