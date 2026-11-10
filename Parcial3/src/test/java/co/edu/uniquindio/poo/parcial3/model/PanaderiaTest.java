@@ -83,4 +83,59 @@ class PanaderiaTest {
         assertEquals(80, diana.getMinutosDisponibles());
         assertEquals(54, carlos.getMinutosDisponibles());
     }
+    @Test
+    void asignarSinPanaderoConTiempoLanzaExcepcionYConservaEstado() {
+        Empleado carlos = new PanaderoIndustrial("Carlos", "1", "E1", 44);
+        Empleado lucia = new Cajero("Lucia", "2", "E2", 120, "Caja 1");
+        panaderia.registrarEmpleado(carlos);
+        panaderia.registrarEmpleado(lucia);
+        panaderia.registrarPedido("P01", "Cafe Sol", TipoPan.TRADICIONAL, 25);
+
+        assertThrows(IllegalStateException.class, () -> panaderia.asignarPedido("P01"));
+
+        assertEquals(EstadoPedido.PENDIENTE, panaderia.buscarPedido("P01").getEstado());
+        assertEquals(44, carlos.getMinutosDisponibles());
+        assertEquals(120, lucia.getMinutosDisponibles());
+    }
+    @Test
+    void cancelarPedidoAsignadoDevuelveSoloSusMinutos() {
+        Empleado carlos = new PanaderoIndustrial("Carlos", "1", "E1", 120);
+        panaderia.registrarEmpleado(carlos);
+        panaderia.registrarPedido("P01", "Cafe Sol", TipoPan.TRADICIONAL, 25);
+        panaderia.registrarPedido("P02", "Resto Luna", TipoPan.TRADICIONAL, 25);
+        panaderia.asignarPedido("P01");
+        panaderia.asignarPedido("P02");
+        assertEquals(30, carlos.getMinutosDisponibles());
+
+        panaderia.cancelarPedido("P01");
+
+        assertEquals(75, carlos.getMinutosDisponibles());
+        assertEquals(EstadoPedido.CANCELADO, panaderia.buscarPedido("P01").getEstado());
+        assertEquals(EstadoPedido.ASIGNADO, panaderia.buscarPedido("P02").getEstado());
+    }
+    @Test
+    void cancelarPedidoPendienteConservaMinutosYQuedaEnHistorial() {
+        Empleado ana = new PanaderoArtesanal("Ana", "1", "E1", 100);
+        panaderia.registrarEmpleado(ana);
+        panaderia.registrarPedido("P01", "Cafe Sol", TipoPan.TRADICIONAL, 25);
+
+        panaderia.cancelarPedido("P01");
+
+        assertEquals(EstadoPedido.CANCELADO, panaderia.buscarPedido("P01").getEstado());
+        assertEquals(1, panaderia.getListaPedidos().size());
+        assertEquals(100, ana.getMinutosDisponibles());
+    }
+    @Test
+    void cancelarDosVecesLanzaExcepcionYDevuelveMinutosUnaSolaVez() {
+        Empleado carlos = new PanaderoIndustrial("Carlos", "1", "E1", 100);
+        panaderia.registrarEmpleado(carlos);
+        panaderia.registrarPedido("P01", "Cafe Sol", TipoPan.TRADICIONAL, 25);
+        panaderia.asignarPedido("P01");
+        panaderia.cancelarPedido("P01");
+
+        assertThrows(IllegalStateException.class, () -> panaderia.cancelarPedido("P01"));
+
+        assertEquals(100, carlos.getMinutosDisponibles());
+        assertEquals(EstadoPedido.CANCELADO, panaderia.buscarPedido("P01").getEstado());
+    }
 }
